@@ -25,7 +25,20 @@
 			if (CPythonPlayer::Instance().GetPartyMemberPtr(it->first, &pPartyMemberInfo))
 			{
 				const auto& PartyInfo = it->second;
-				__GlobalPositionToAtlasPosition(PartyInfo->lX - m_dwAtlasBaseX, PartyInfo->lY - m_dwAtlasBaseY, &PartyInfo->fScreenX, &PartyInfo->fScreenY);
+
+				long xPos = PartyInfo->lX;
+				long yPos = PartyInfo->lY;
+
+				CInstanceBase* pkInst = CPythonCharacterManager::Instance().GetInstancePtrByName(pPartyMemberInfo->strName.c_str());
+				if (pkInst)
+				{
+					TPixelPosition kInstPos;
+					pkInst->NEW_GetPixelPosition(&kInstPos);
+					xPos = kInstPos.x + m_dwAtlasBaseX;
+					yPos = kInstPos.y + m_dwAtlasBaseY;
+				}
+
+				__GlobalPositionToAtlasPosition(xPos - m_dwAtlasBaseX, yPos - m_dwAtlasBaseY, &PartyInfo->fScreenX, &PartyInfo->fScreenY);
 
 				PartyInfo->grMarkImage.SetPosition(PartyInfo->fScreenX - static_cast<float>(PartyInfo->grMarkImage.GetWidth()) / 2.0f,
 					PartyInfo->fScreenY - static_cast<float>(PartyInfo->grMarkImage.GetHeight()) / 2.0f);
