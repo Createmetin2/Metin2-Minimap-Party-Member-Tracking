@@ -28,28 +28,29 @@
 
 				long xPos = PartyInfo->lX;
 				long yPos = PartyInfo->lY;
+				float fRotation = (540.0f - PartyInfo->fRot);
 
 				CInstanceBase* pkInst = CPythonCharacterManager::Instance().GetInstancePtrByName(pPartyMemberInfo->strName.c_str());
-				if (pkInst)
-				{
+				if (pkInst) {
 					TPixelPosition kInstPos;
 					pkInst->NEW_GetPixelPosition(&kInstPos);
 					xPos = kInstPos.x + m_dwAtlasBaseX;
 					yPos = kInstPos.y + m_dwAtlasBaseY;
+					fRotation = (540.0f - pkInst->GetRotation());
 				}
 
-				__GlobalPositionToAtlasPosition(xPos - m_dwAtlasBaseX, yPos - m_dwAtlasBaseY, &PartyInfo->fScreenX, &PartyInfo->fScreenY);
-
-				PartyInfo->grMarkImage.SetPosition(PartyInfo->fScreenX - static_cast<float>(PartyInfo->grMarkImage.GetWidth()) / 2.0f,
-					PartyInfo->fScreenY - static_cast<float>(PartyInfo->grMarkImage.GetHeight()) / 2.0f);
-
-				float fRotation = (540.0f - PartyInfo->fRot);
 				while (fRotation > 360.0f)
 					fRotation -= 360.0f;
 				while (fRotation < 0.0f)
 					fRotation += 360.0f;
-
 				PartyInfo->grMarkImage.SetRotation(fRotation);
+
+				__GlobalPositionToAtlasPosition(xPos - m_dwAtlasBaseX, yPos - m_dwAtlasBaseY, 
+					&PartyInfo->fScreenX, &PartyInfo->fScreenY);
+
+				PartyInfo->grMarkImage.SetPosition(PartyInfo->fScreenX - static_cast<float>(PartyInfo->grMarkImage.GetWidth()) / 2.0f,
+					PartyInfo->fScreenY - static_cast<float>(PartyInfo->grMarkImage.GetHeight()) / 2.0f);
+
 				PartyInfo->grMarkImage.Render();
 				++it;
 			}
