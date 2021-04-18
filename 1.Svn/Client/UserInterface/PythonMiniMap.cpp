@@ -115,10 +115,10 @@ void CPythonMiniMap::AddPartyPositionInfo(const TPartyPosition& Info)
 		if (!CPythonPlayer::Instance().GetPartyMemberPtr(Info.dwPID, &pPartyMemberInfo))
 			return;
 		
-		static const char* playerMarkFileName = "d:/ymir work/ui/minimap/playermark.sub";
-		CGraphicSubImage* CImage = dynamic_cast<CGraphicSubImage*>(CResourceManager::Instance().GetResourcePointer(playerMarkFileName));
+		static const char* playerPartyMarkFileName = "d:/ymir work/ui/minimap/playerpartymark.tga";
+		auto CImage = dynamic_cast<CGraphicImage*>(CResourceManager::Instance().GetResourcePointer(playerPartyMarkFileName));
 		if (CImage == nullptr) {
-			Tracef(" CPythonMiniMap::AddPartyPositionInfo File Load %s ERROR\n", playerMarkFileName);
+			Tracef(" CPythonMiniMap::AddPartyPositionInfo File Load %s ERROR\n", playerPartyMarkFileName);
 			return;
 		}
 
